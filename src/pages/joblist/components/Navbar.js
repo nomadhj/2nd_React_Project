@@ -97,7 +97,7 @@ const Navbar = ({ onChangeFilter }) => {
     .filter(string => string.length !== 0)
     .join('&');
 
-  const naviagateURL = `/joblist?${queryString}`;
+  const naviagateURL = `?${queryString}`;
 
   const myNavigate = useCallback(() => {
     navigate(naviagateURL);

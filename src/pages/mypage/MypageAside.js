@@ -30,20 +30,6 @@ const MypageAside = () => {
           <AsideSecondPointNumber>1,000P</AsideSecondPointNumber>
         </AsideSecondPoint>
       </AsideSecond>
-      <AsideMiddle>
-        {USER_ACTIVITY_INFO.map(activityData => {
-          const { id, content, point } = activityData;
-          return (
-            <AsideMiddleContainer key={id}>
-              <AsideMiddleText>{content}</AsideMiddleText>
-              <AsideMiddleNumber>{point}</AsideMiddleNumber>
-            </AsideMiddleContainer>
-          );
-        })}
-      </AsideMiddle>
-      <AsideBottom>
-        <AsideText>계정 설정</AsideText>
-      </AsideBottom>
     </ProfileAside>
   );
 };
@@ -109,36 +95,9 @@ const AsideSecondPointNumber = styled.span`
   color: black;
   font-size: 22px;
 `;
-const AsideMiddle = styled.div`
-  padding: 30px 25px 30px 20px;
-  border-bottom: 1px solid #dbdbdb;
-  color: gray;
-`;
-const AsideMiddleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 23px;
-`;
-const AsideMiddleText = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 20px;
-`;
-const AsideMiddleNumber = styled.span`
-  color: black;
-  font-size: 22px;
-`;
-const AsideBottom = styled.div`
-  padding: 30px 20px;
-  color: gray;
-`;
 const AsideText = styled.span`
   font-size: 18px;
   font-weight: bold;
 `;
+
 export default MypageAside;
-const USER_ACTIVITY_INFO = [
-  { id: 1, content: '원해요', point: 0 },
-  { id: 2, content: '열람', point: 0 },
-  { id: 3, content: '받은 제안', point: 0 },
-];

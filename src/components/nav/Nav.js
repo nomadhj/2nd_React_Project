@@ -1,33 +1,26 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoIosSearch } from 'react-icons/io';
 import SearchModal from './components/SearchModal.js';
-import DropMenu from './DropMenu.js';
 import { useNavigate } from 'react-router-dom';
 
 const Nav = () => {
-  const [dropMenu, setDropMenu] = useState(false);
   const [isShownSearchBar, setIsShownSearchBar] = useState(false);
   const navigate = useNavigate();
-  const modalEl = useRef();
 
   const [isLogin, setIsLogin] = useState(false);
-  const wantToken = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    wantToken && setIsLogin(true);
-  }, [wantToken]);
-
-  const showDropMenu = () => {
-    setDropMenu(!dropMenu);
-  };
+    token && setIsLogin(true);
+  }, [token]);
 
   const goToMain = () => {
     navigate('/');
   };
 
   const goToMypage = () => {
+    if (!isLogin) return;
     navigate('/mypage');
   };
 
@@ -50,78 +43,40 @@ const Nav = () => {
     navigate('/');
   };
 
-  const closeDropMenu = useCallback(
-    e => {
-      e.stopPropagation();
-      if (dropMenu && !modalEl.current.contains(e.target)) {
-        setDropMenu(false);
-      }
-    },
-    [dropMenu]
-  );
-
-  useEffect(() => {
-    window.addEventListener('click', closeDropMenu);
-    return () => {
-      window.removeEventListener('click', closeDropMenu);
-    };
-  }, [closeDropMenu, dropMenu]);
-
-  const GLOBAL_NAV = [
-    { id: 1, content: '채용' },
-    { id: 2, content: '이벤트' },
-    { id: 3, content: '직군별 연봉' },
-    { id: 4, content: '이력서', functional: goToResume },
-    { id: 5, content: '커뮤니티' },
-    { id: 6, content: '프리랜서' },
-  ];
-
   return (
-    <>
-      <NavWrapper>
-        <NavContainer>
-          <Mainbar>
-            <HamburgerBar onClick={showDropMenu} ref={modalEl}>
-              <GiHamburgerMenu />
-            </HamburgerBar>
-            <Title onClick={goToMain}>wantUS</Title>
-          </Mainbar>
-          <MenuListContainer>
-            {GLOBAL_NAV.map(({ content, id, functional }) => {
-              return (
-                <MenuList key={id} onClick={functional}>
-                  {content}
-                </MenuList>
-              );
-            })}
-          </MenuListContainer>
-          <NavRightContainer>
-            <UserSection>
-              <SearchIcon
-                onClick={() => {
-                  setIsShownSearchBar(true);
-                }}
-              />
-              {!isLogin && <Login onClick={checkLogin}>로그인</Login>}
-              {isLogin && <Login onClick={checkLogOut}>로그아웃</Login>}
-            </UserSection>
-            <CompanyService onClick={goToMypage}>
-              {isLogin ? '마이 페이지' : '기업 서비스'}
-            </CompanyService>
-            {isLogin && (
-              <CompanyService onClick={goToLikepage}>Follow</CompanyService>
-            )}
-          </NavRightContainer>
-        </NavContainer>
-        {isShownSearchBar && (
-          <SearchModal
-            isShownSearchBar={isShownSearchBar}
-            setIsShownSearchBar={setIsShownSearchBar}
-          />
-        )}
-      </NavWrapper>
-      {dropMenu && <DropMenu />}
-    </>
+    <NavWrapper>
+      <NavContainer>
+        <Mainbar>
+          <Title onClick={goToMain}>wantUS</Title>
+        </Mainbar>
+        <MenuListContainer>
+          <MenuList onClick={goToResume}>이력서</MenuList>
+        </MenuListContainer>
+        <NavRightContainer>
+          <UserSection>
+            <SearchIcon
+              onClick={() => {
+                setIsShownSearchBar(true);
+              }}
+            />
+            {!isLogin && <Login onClick={checkLogin}>로그인</Login>}
+            {isLogin && <Login onClick={checkLogOut}>로그아웃</Login>}
+          </UserSection>
+          <CompanyService onClick={goToMypage}>
+            {isLogin ? '마이 페이지' : '기업 서비스'}
+          </CompanyService>
+          {isLogin && (
+            <CompanyService onClick={goToLikepage}>Follow</CompanyService>
+          )}
+        </NavRightContainer>
+      </NavContainer>
+      {isShownSearchBar && (
+        <SearchModal
+          isShownSearchBar={isShownSearchBar}
+          setIsShownSearchBar={setIsShownSearchBar}
+        />
+      )}
+    </NavWrapper>
   );
 };
 
@@ -150,16 +105,8 @@ const Mainbar = styled.div`
   font-size: 25px;
 `;
 
-const HamburgerBar = styled.button`
-  margin-right: 15px;
-  padding-top: 5px;
-  border: none;
-  background-color: white;
-  font-size: 20px;
-  cursor: pointer;
-`;
-
 const Title = styled.div`
+  margin-left: 50px;
   font-weight: bold;
   cursor: pointer;
 `;
