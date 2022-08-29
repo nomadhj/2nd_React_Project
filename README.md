@@ -1,25 +1,44 @@
-# 33기 2차 프로젝트 - wantUs 프론트 엔드
+# React 2차 프로젝트
+
+## 프로젝트 결과
+  - 프로젝트 배포 링크 : 
+  
+  **[변경사항]**
+  ```
+  - 기존의 백엔드 데이터를 포함한 정식 배포 버전이 아닌 netlify를 통한 클라이언트 코드 배포
+  - 구글 소셜 로그인 기능 변경 적용 (기존 프로젝트와 달리 백엔드 없이 클라이언트로만 구성)
+  - 데이터 베이스는 Firebase를 활용
+  - 실제 프로젝트에서 구현했던 기능에서 일부 삭제
+    - 개인 공부 및 기록 목적이므로 직접 구현한 기능 위주로 프로젝트 구성
+    - 소셜 로그인/무한스크롤 기능 위주
+  ```
+  **[기존 프로젝트 구현결과 영상 및 github]**
+  - 시연 영상: https://www.youtube.com/watch?v=SqFNWewFKKk
+  - github(배포 X; 코드만 확인 가능) : https://github.com/wecode-bootcamp-korea/33-2nd-wantUS-frontend
+  
+  ***
 
 ## 개요 
 
-- 내용 : wanted 웹페이지 클론코딩 프로젝트
-- 기간 : 2022.06.07 ~ 06.17
+- 내용 : wanted 웹페이지를 모티브로 한 채용서비스 웹페이지 구현 프로젝트
+- 기간 : 2022.06.07 ~ 06.17 (2주)
 - 인원 : 총 6명 (프론트엔드: 4명, 백엔드: 2명)
-- 구현 기능
+- 기술스택 및 협업 tool
+```
+  - React
+  - JavaScript
+  - HTML5/CSS3(styled component)
+  - 협업 툴 : github, slack, trello
+```
+- 구현 기능 (담당 기능은 *로 표기)
+```
   - Nav, Footer, 메인페이지
   - 소셜 로그인 페이지
   - 마이페이지 / 이력서페이지 / 좋아요페이지
-  - 채용 공고 리스트 / 채용 상세 페이지
-  - 검색바 / 검색 결과
-
-## 사용한 stack & tool (front-end 공통)
-- HTML5, CSS3(styled component), JavaScript, React
-- github, slack, trello
-
-## 기능 구현 영상 링크
-- https://www.youtube.com/watch?v=SqFNWewFKKk
-
-<img width="817" alt="스크린샷 2022-06-17 오후 1 14 13" src="https://user-images.githubusercontent.com/101119985/174223646-c11b401e-57c9-4a93-afe6-114b1a59674f.png">
+  - 채용 상세 페이지
+  - *채용 공고 리스트
+  - *검색바 / 검색 결과
+```
 
 ## 담당 구현 기능
 
