@@ -1,0 +1,25 @@
+{
+  "job_detail": {
+    "job_id": 1,
+    "job_name": "STO 프론트개발자",
+    "job_content": "<p><span>‘제네시스네스트‘는 2022년 5월에 게임플랫폼 전문가들과 함께 출발을 하였습니다.<br><br>우리의 목표는 게임 개발자가 가장 먼저 떠올리는 글로벌 1위의 게임플랫폼서비스를 구축하는 것입니다. 게임개발자가 컨텐츠 개발에 집중할 수 있도록 컨텐츠 외적인 게임공통서비스, 그리고 P2E를 손쉽게 구현을 할 수 있는 오픈플랫폼을 제공합니다.<br><br>우리는 이미 게임플랫폼과 게임용 블록체인플랫폼을 서비스하고 성공시킨 경험을 가진 훌륭한 프로의식, 인격, 열정을 갖춘 전문가들로 구성되어 있습니다.<br><br>‘제네시스네스트’와 함께 성장하고 상상을 게임플랫폼의 비전을 함께할 당신을 기다리고 있습니다!</span></p>",
+    "job_deadline": "2022-06-30",
+    "company_id": 1,
+    "company_name": "위코드",
+    "company_address": "서울특별시 마포구 독막로 331",
+    "company_location": "서울",
+    "company_logo": "https://i.pinimg.com/564x/f6/16/1d/f6161d61d9223223fcad406a632fa828.jpg",
+    "company_images": [
+      "https://i.pinimg.com/564x/27/e0/74/27e074008b1d54fb474224de9102651b.jpg",
+      "https://i.pinimg.com/564x/db/e6/14/dbe61467598a34dc1b363374526dcad8.jpg",
+      "https://i.pinimg.com/564x/52/6e/14/526e144d98cede550d3500578bda8211.jpg"
+    ],
+    "company_latitude": "37.50644",
+    "company_longitude": "127.05364"
+  },
+  "user_info": {
+    "id": 17,
+    "name": "황재승",
+    "email": "cmerak@hotmail.com"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "application_results": [
+    {
+      "id": 1,
+      "company_name": "위코드",
+      "company_logo": "https://i.pinimg.com/564x/f6/16/1d/f6161d61d9223223fcad406a632fa828.jpg",
+      "position": "STO 프론트개발자",
+      "time": "2022.06.12",
+      "result": "서류통과"
+    },
+    {
+      "id": 1,
+      "company_name": "테크타카",
+      "company_logo": "https://i.pinimg.com/564x/f6/16/1d/f6161d61d9223223fcad406a632fa828.jpg",
+      "position": "STO 프론트개발자",
+      "time": "2022.06.12",
+      "result": "합격"
+    },
+    {
+      "id": 1,
+      "company_name": "김슬비",
+      "company_logo": "https://i.pinimg.com/564x/f6/16/1d/f6161d61d9223223fcad406a632fa828.jpg",
+      "position": "STO 프론트개발자",
+      "time": "2022.06.12",
+      "result": "불합격"
+    }
+  ],
+  "user_info": {
+    "id": 17,
+    "name": "안성주",
+    "email": "cmerak@hotmail.com",
+    "image": "https://i.pinimg.com/564x/f6/16/1d/f6161d61d9223223fcad406a632fa828.jpg"
+  }
+}

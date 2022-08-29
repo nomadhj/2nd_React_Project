@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "imgURL": "https://cdn.pixabay.com/photo/2019/08/11/07/11/beach-4398269_960_720.jpg",
+    "companyName": "원티드랩",
+    "position": "[마케팅팀] CRM 마케터",
+    "time": "2021.12.20",
+    "result": "불합격",
+    "recommend": "추천인 없음",
+    "money": "신청"
+  },
+  {
+    "id": 2,
+    "imgURL": "https://cdn.pixabay.com/photo/2019/08/11/07/11/beach-4398269_960_720.jpg",
+    "companyName": "정준성주",
+    "position": "[PL] 김슬비 ",
+    "time": "2021.12.20",
+    "result": "합격",
+    "recommend": "추천인 없음",
+    "money": "신청"
+  },
+  {
+    "id": 3,
+    "imgURL": "https://cdn.pixabay.com/photo/2019/08/11/07/11/beach-4398269_960_720.jpg",
+    "companyName": "테크타카",
+    "position": "[개발자] 프론트앤드 ",
+    "time": "2022.12.20",
+    "result": "불합격"
+  },
+  {
+    "id": 4,
+    "imgURL": "https://cdn.pixabay.com/photo/2019/08/11/07/11/beach-4398269_960_720.jpg",
+    "companyName": "엠비션뮤",
+    "position": "[PL] 릴러말즈 ",
+    "time": "2021.08.10",
+    "result": "서류통과"
+  },
+  {
+    "id": 5,
+    "imgURL": "https://cdn.pixabay.com/photo/2019/08/11/07/11/beach-4398269_960_720.jpg",
+    "companyName": "토스",
+    "position": "[주니어] 프론트앤드개발자 ",
+    "time": "2022.07.20",
+    "result": "서류통과"
+  }
+]
