@@ -24,54 +24,14 @@ const Navbar = ({ onChangeFilter }) => {
     });
   }, []);
 
-  const queryCategory = {
-    sub_category: {
-      string: '',
-      length: 3,
-      object: {
-        fullStack: 1,
-        frontEnd: 2,
-        backEnd: 3,
-      },
-    },
-    location: {
-      string: '',
-      length: 3,
-      object: {
-        seoul: 1,
-        gyeonggi: 2,
-        busan: 3,
-      },
-    },
-    career: {
-      string: '',
-      length: 2,
-      object: {
-        total: 1,
-        newcommer: 2,
-        experienced: 3,
-      },
-    },
-    skill: {
-      string: '',
-      length: 4,
-      object: {
-        python: 1,
-        django: 2,
-        javascript: 3,
-        react: 4,
-      },
-    },
-  };
-
-  for (let key in queryCategory) {
-    queryCategory[key].string =
+  for (let key in QUERY_CATEGORY) {
+    QUERY_CATEGORY[key].string =
       selectState[key].length === 0 ||
-      selectState[key].length === queryCategory[key].length
+      selectState[key].length === QUERY_CATEGORY[key].length
         ? ``
         : selectState[key]
             .map(selectedItem => {
-              return `${key}=` + queryCategory[key].object[selectedItem];
+              return `${key}=` + QUERY_CATEGORY[key].object[selectedItem];
             })
             .join('&');
   }
@@ -85,7 +45,7 @@ const Navbar = ({ onChangeFilter }) => {
           })
           .join('&');
 
-  const { sub_category, location, career, skill } = queryCategory;
+  const { sub_category, location, career, skill } = QUERY_CATEGORY;
 
   const queryString = [
     sub_category.string,
@@ -97,7 +57,7 @@ const Navbar = ({ onChangeFilter }) => {
     .filter(string => string.length !== 0)
     .join('&');
 
-  const naviagateURL = `?${queryString}`;
+  const naviagateURL = `/joblist?${queryString}`;
 
   const myNavigate = useCallback(() => {
     navigate(naviagateURL);
@@ -131,5 +91,45 @@ const Filterbar = styled.div`
   background-color: white;
   z-index: 10;
 `;
+
+const QUERY_CATEGORY = {
+  sub_category: {
+    string: '',
+    length: 3,
+    object: {
+      fullStack: 1,
+      frontEnd: 2,
+      backEnd: 3,
+    },
+  },
+  location: {
+    string: '',
+    length: 3,
+    object: {
+      seoul: 1,
+      gyeonggi: 2,
+      busan: 3,
+    },
+  },
+  career: {
+    string: '',
+    length: 2,
+    object: {
+      total: 1,
+      newcommer: 2,
+      experienced: 3,
+    },
+  },
+  skill: {
+    string: '',
+    length: 4,
+    object: {
+      python: 1,
+      django: 2,
+      javascript: 3,
+      react: 4,
+    },
+  },
+};
 
 export default Navbar;

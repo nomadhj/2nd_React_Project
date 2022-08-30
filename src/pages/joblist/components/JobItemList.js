@@ -1,41 +1,43 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import JobItem from './JobItem';
 import SkeletonUi from './SkeletonUI';
 import useFetch from '../../../hooks/useFetch';
+import API from '../../../config';
 
-const JobItemList = ({ queryString }) => {
+let page = 1;
+const LIMIT_PAGINATION = 12;
+const LIMIT_ITEM_AMOUNT = 50;
+
+const JobItemList = () => {
   const [itemList, setItemList] = useState([]);
-  const [newItemList, setNewItemList] = useState([]);
-  const [page, setPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [renderNewItem, setRenderNewItem] = useState(true);
-  const [toggleNext, setToggleNext] = useState(true);
+  const { httpRequest, isLoading, error, dataLength } = useFetch();
 
-  const { httpRequest, error, dataLength } = useFetch();
+  const isLogin = !!localStorage.getItem('token');
+  const url = API.itemList + `page=${page}&limit=${LIMIT_PAGINATION}`;
+  const fakeList = Array.from({ length: dataLength }, (_, i) => i);
 
-  const token = localStorage.getItem('token');
-  const objForSkeletonUi = [...Array(dataLength).keys()];
-  const url_rawData = `http://52.15.84.15:8000/jobs/private?offset=${page}&limit=${LIMIT}`;
-  const url_filtered = `http://52.15.84.15:8000/jobs/private${queryString}`;
-
-  const newListHandler = data => {
-    setNewItemList([
+  const itemListHandler = data => {
+    const loadedItemList = [
       ...data.map(item => {
         return {
           id: item.id,
-          jobName: item.name,
-          company: item.company,
-          location: item.location,
-          years: item.years,
-          like: item.follow,
-          url: item.url,
+          jobName: item.author.split(' ')[0],
+          company: item.author.split(' ')[1],
+          location: '서울 강남구',
+          years: '신입',
+          like: false,
+          url: item.download_url,
         };
       }),
-    ]);
+    ];
+    setItemList(prevState => {
+      return [...prevState, ...loadedItemList];
+    });
+    page++;
   };
 
-  const changeItemList = id => {
+  const bookmarkHandler = id => {
     setItemList(prevState => {
       return prevState.map(item => {
         if (item.id === id) {
@@ -47,76 +49,46 @@ const JobItemList = ({ queryString }) => {
     });
   };
 
-  const loadingUIHandler = value => {
-    setIsLoading(value);
-  };
+  const intersectionObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          httpRequest({ url }, itemListHandler);
+        }
+      });
+    },
+    {
+      threshold: 0.8,
+    }
+  );
 
-  const intersectionObserver = useMemo(() => {
-    return new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && queryString.length === 0) {
-            observer.unobserve(entry.target);
-            loadingUIHandler(true);
-            setRenderNewItem(true);
-            setPage(prevState => prevState + LIMIT);
-            setToggleNext(prevState => !prevState);
-
-            setTimeout(() => {
-              loadingUIHandler(false);
-            }, 2000);
-          }
-        });
-      },
-      {
-        threshold: 0.8,
-      }
+  const renderItemList = itemList.map(item => {
+    return (
+      <JobItem
+        key={item.id}
+        item={item}
+        onChangeList={bookmarkHandler}
+        isLogin={isLogin}
+      />
     );
+  });
+
+  const renderFakeList = fakeList.map(item => <SkeletonUi key={item} />);
+
+  useEffect(() => {
+    httpRequest({ url }, itemListHandler);
   }, []);
 
   useEffect(() => {
-    httpRequest(
-      {
-        url: url_rawData,
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      },
-      newListHandler
-    );
-  }, [toggleNext]);
-
-  useEffect(() => {
-    setItemList([]);
-    setPage(0);
-    httpRequest(
-      {
-        url: url_filtered,
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      },
-      newListHandler
-    );
-    intersectionObserver.disconnect();
-  }, [url_filtered]);
-
-  useEffect(() => {
     const jobItemList = document.querySelectorAll('.jobItem');
-    if (jobItemList.length !== 0) {
+    if (jobItemList.length > LIMIT_ITEM_AMOUNT)
+      intersectionObserver.disconnect();
+    else if (jobItemList.length !== 0) {
       const lastJobItem = jobItemList[jobItemList.length - 1];
       intersectionObserver.observe(lastJobItem);
     }
-  }, [intersectionObserver, itemList]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      setItemList(prevState => {
-        return [...prevState, ...newItemList];
-      });
-      setRenderNewItem(false);
-    }
-  }, [isLoading, newItemList]);
+  }, [itemList.length]);
 
   return (
     <ItemListContainer>
@@ -126,33 +98,8 @@ const JobItemList = ({ queryString }) => {
           <ErrorMessage>{error.message}</ErrorMessage>
         </>
       )}
-      <ItemList>
-        {itemList.map(item => {
-          return (
-            <JobItem
-              key={item.id}
-              item={item}
-              onChangeList={changeItemList}
-              token={token}
-            />
-          );
-        })}
-        {isLoading
-          ? objForSkeletonUi.map(item => {
-              return <SkeletonUi key={item} />;
-            })
-          : renderNewItem
-          ? newItemList.map(item => {
-              return (
-                <JobItem
-                  key={item.id}
-                  item={item}
-                  onChangeList={changeItemList}
-                />
-              );
-            })
-          : null}
-      </ItemList>
+      {isLoading && renderFakeList}
+      <ItemList>{renderItemList}</ItemList>
     </ItemListContainer>
   );
 };
@@ -180,5 +127,3 @@ const ItemList = styled.ul`
 `;
 
 export default JobItemList;
-
-const LIMIT = 12;

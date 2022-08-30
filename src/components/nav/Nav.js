@@ -11,25 +11,14 @@ const Nav = () => {
   const [isLogin, setIsLogin] = useState(false);
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    token && setIsLogin(true);
-  }, [token]);
-
-  const goToMain = () => {
-    navigate('/');
-  };
-
-  const goToMypage = () => {
-    if (!isLogin) return;
-    navigate('/mypage');
-  };
-
-  const goToLikepage = () => {
-    navigate('/likepage');
-  };
-
-  const goToResume = () => {
-    navigate('/resume');
+  const moveToPage = event => {
+    const { innerText: name } = event.target;
+    if (name === 'wantUS') navigate('/');
+    if (name === '마이 페이지') navigate('/mypage');
+    if (name === '이력서') {
+      if (!isLogin) return;
+      navigate('/resume');
+    }
   };
 
   const checkLogin = () => {
@@ -43,31 +32,32 @@ const Nav = () => {
     navigate('/');
   };
 
+  const searchBarHandler = () => {
+    setIsShownSearchBar(prevState => !prevState);
+  };
+
+  useEffect(() => {
+    token && setIsLogin(true);
+  }, [token]);
+
   return (
     <NavWrapper>
       <NavContainer>
         <Mainbar>
-          <Title onClick={goToMain}>wantUS</Title>
+          <Title onClick={moveToPage}>wantUS</Title>
         </Mainbar>
         <MenuListContainer>
-          <MenuList onClick={goToResume}>이력서</MenuList>
+          <MenuList onClick={moveToPage}>이력서</MenuList>
         </MenuListContainer>
         <NavRightContainer>
           <UserSection>
-            <SearchIcon
-              onClick={() => {
-                setIsShownSearchBar(true);
-              }}
-            />
+            <SearchIcon onClick={searchBarHandler} />
             {!isLogin && <Login onClick={checkLogin}>로그인</Login>}
             {isLogin && <Login onClick={checkLogOut}>로그아웃</Login>}
           </UserSection>
-          <CompanyService onClick={goToMypage}>
+          <CompanyService onClick={moveToPage}>
             {isLogin ? '마이 페이지' : '기업 서비스'}
           </CompanyService>
-          {isLogin && (
-            <CompanyService onClick={goToLikepage}>Follow</CompanyService>
-          )}
         </NavRightContainer>
       </NavContainer>
       {isShownSearchBar && (

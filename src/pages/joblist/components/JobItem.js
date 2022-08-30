@@ -2,15 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
-import useFetch from '../../../hooks/useFetch';
+// import useFetch from '../../../hooks/useFetch';
 
-const JobItem = ({ item, onChangeList, token }) => {
+const JobItem = ({ item, onChangeList, isLogin }) => {
   const { id, company, jobName, url, location, years, like } = item;
 
   const naviagate = useNavigate();
-  const { httpRequest } = useFetch();
+  // const { httpRequest } = useFetch();
 
-  const url_likeData = `http://52.15.84.15:8000/jobs/${id}/follow`;
+  // const url_likeData = `http://52.15.84.15:8000/jobs/${id}/follow`;
 
   const goToDetail = () => {
     naviagate(`/jobdetail/${id}`);
@@ -19,24 +19,21 @@ const JobItem = ({ item, onChangeList, token }) => {
   const toggleLikeButton = event => {
     event.stopPropagation();
     onChangeList(id);
-    httpRequest({
-      url: url_likeData,
-      method: 'POST',
-      headers: {
-        Authorization: localStorage.getItem('token'),
-      },
-    });
+    // httpRequest({
+    //   url: url_likeData,
+    //   method: 'POST',
+    // });
   };
 
   return (
     <ItemContainer onClick={goToDetail}>
       <ImgContainer>
-        {token && (
+        {isLogin && (
           <IconSolidHeart like={like}>
             <FaHeart />
           </IconSolidHeart>
         )}
-        {token && (
+        {isLogin && (
           <IconRegularHeart onClick={toggleLikeButton}>
             <FaRegHeart />
           </IconRegularHeart>
