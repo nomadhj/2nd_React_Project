@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import ResumeItemList from './ResumeItemList';
-import { FiCopy } from 'react-icons/fi';
 import { BsUpload } from 'react-icons/bs';
 
 const Resume = () => {
@@ -60,12 +59,6 @@ const Resume = () => {
           <HeaderRight>원티드 이력서 소개 ⓘ</HeaderRight>
         </ResumeListHeader>
         <ResumeList>
-          <ResumeItemFix>
-            <ResumeAdd>
-              <FiCopy />
-            </ResumeAdd>
-            <ResumeAddText>새 이력서 작성</ResumeAddText>
-          </ResumeItemFix>
           <ResumeItemFix>
             <ResumeUpload>
               <BsUpload />
@@ -146,14 +139,6 @@ const ResumeItemFix = styled.div`
   ${ResumeItemCard}
 `;
 
-const ResumeAdd = styled.div`
-  padding: 25px;
-  background-color: ${props => props.theme.primaryBlue};
-  border-radius: 50%;
-  color: white;
-  font-size: 26px;
-`;
-
 const ResumeUpload = styled.div`
   padding: 25px;
   background-color: #e1e2e3;
@@ -175,7 +160,5 @@ const FileInput = styled.input`
 const FileInputLabel = styled.label`
   cursor: pointer;
 `;
-
-const ResumeAddText = styled(ResumeUploadText)``;
 
 export default Resume;

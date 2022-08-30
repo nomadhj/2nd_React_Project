@@ -1,10 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 const useFetch = () => {
+  const [isLoading, setIsLodaing] = useState(false);
   const [error, setError] = useState(false);
   const [dataLength, setDataLength] = useState(0);
 
-  const httpRequest = useCallback(async (requestConfig, dataHandler) => {
+  const httpRequest = async (requestConfig, dataHandler) => {
+    setIsLodaing(true);
+    setError(null);
     setDataLength(0);
 
     try {
@@ -16,17 +19,19 @@ const useFetch = () => {
           : null,
       });
       const data = await response.json();
-      setDataLength(data.result.length);
-      dataHandler(data.result);
+      setDataLength(data.length);
+      dataHandler(data);
     } catch (error) {
       setError(error);
     }
-  }, []);
+    setIsLodaing(false);
+  };
 
   return {
-    error: error,
-    httpRequest: httpRequest,
-    dataLength: dataLength,
+    httpRequest,
+    isLoading,
+    error,
+    dataLength,
   };
 };
 

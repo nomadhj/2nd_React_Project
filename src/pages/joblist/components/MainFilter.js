@@ -258,8 +258,6 @@ const BackDrop = styled.div`
   z-index: 15;
 `;
 
-export default MainFilter;
-
 const MAIN_CATEGORY = [
   {
     id: 1,
@@ -282,3 +280,5 @@ const MAIN_CATEGORY = [
     text: '백엔드 개발자',
   },
 ];
+
+export default MainFilter;
