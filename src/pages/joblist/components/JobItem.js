@@ -2,16 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
-// import useFetch from '../../../hooks/useFetch';
 
 const JobItem = ({ item, onChangeList, isLogin }) => {
   const { id, company, jobName, url, location, years, like } = item;
-
   const naviagate = useNavigate();
-  // const { httpRequest } = useFetch();
 
-  // const url_likeData = `http://52.15.84.15:8000/jobs/${id}/follow`;
-
+  // redux를 통한 데이터 전달 기능 추가
   const goToDetail = () => {
     naviagate(`/jobdetail/${id}`);
   };
@@ -19,10 +15,6 @@ const JobItem = ({ item, onChangeList, isLogin }) => {
   const toggleLikeButton = event => {
     event.stopPropagation();
     onChangeList(id);
-    // httpRequest({
-    //   url: url_likeData,
-    //   method: 'POST',
-    // });
   };
 
   return (
@@ -136,6 +128,3 @@ const JobYears = styled.p`
 `;
 
 export default JobItem;
-
-const TOKEN =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTd9.ZLfjk6sHhjvX3_D5KJb-l5QlKECQXOpI874ozA2WHT4';

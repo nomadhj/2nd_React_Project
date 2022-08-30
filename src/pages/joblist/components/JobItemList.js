@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import JobItem from './JobItem';
 import SkeletonUi from './SkeletonUI';
@@ -8,14 +8,16 @@ import API from '../../../config';
 let page = 1;
 const LIMIT_PAGINATION = 12;
 const LIMIT_ITEM_AMOUNT = 50;
+const LIMIT_SKELETON_AMOUNT = 8;
 
 const JobItemList = () => {
   const [itemList, setItemList] = useState([]);
-  const { httpRequest, isLoading, error, dataLength } = useFetch();
+  const { httpRequest, isLoading, error } = useFetch();
 
   const isLogin = !!localStorage.getItem('token');
-  const url = API.itemList + `page=${page}&limit=${LIMIT_PAGINATION}`;
-  const fakeList = Array.from({ length: dataLength }, (_, i) => i);
+  const fakeList = Array.from({ length: LIMIT_SKELETON_AMOUNT }, (_, i) => i);
+
+  console.log('렌더링');
 
   const itemListHandler = data => {
     const loadedItemList = [
@@ -49,19 +51,24 @@ const JobItemList = () => {
     });
   };
 
-  const intersectionObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          httpRequest({ url }, itemListHandler);
-        }
-      });
-    },
-    {
-      threshold: 0.8,
-    }
-  );
+  const intersectionObserver = useMemo(() => {
+    return new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+            httpRequest(
+              {
+                url: API.itemList + `page=${page}&limit=${LIMIT_PAGINATION}`,
+              },
+              itemListHandler
+            );
+          }
+        });
+      },
+      { threshold: 0.8 }
+    );
+  }, [httpRequest]);
 
   const renderItemList = itemList.map(item => {
     return (
@@ -77,8 +84,11 @@ const JobItemList = () => {
   const renderFakeList = fakeList.map(item => <SkeletonUi key={item} />);
 
   useEffect(() => {
-    httpRequest({ url }, itemListHandler);
-  }, []);
+    httpRequest(
+      { url: API.itemList + `page=${page}&limit=${LIMIT_PAGINATION}` },
+      itemListHandler
+    );
+  }, [httpRequest]);
 
   useEffect(() => {
     const jobItemList = document.querySelectorAll('.jobItem');
@@ -88,7 +98,7 @@ const JobItemList = () => {
       const lastJobItem = jobItemList[jobItemList.length - 1];
       intersectionObserver.observe(lastJobItem);
     }
-  }, [itemList.length]);
+  }, [intersectionObserver, itemList.length]);
 
   return (
     <ItemListContainer>
@@ -98,8 +108,10 @@ const JobItemList = () => {
           <ErrorMessage>{error.message}</ErrorMessage>
         </>
       )}
-      {isLoading && renderFakeList}
-      <ItemList>{renderItemList}</ItemList>
+      <ItemList>
+        {renderItemList}
+        {isLoading && renderFakeList}
+      </ItemList>
     </ItemListContainer>
   );
 };
