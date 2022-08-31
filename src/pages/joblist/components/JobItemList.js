@@ -20,13 +20,12 @@ const JobItemList = () => {
   const scrollMemoHandler = useCallback(() => {
     const savedScroll = +sessionStorage.getItem('scroll');
     const savedPage = +sessionStorage.getItem('page');
-
     if (savedScroll && savedPage) {
       setTimeout(() => {
-        window.scrollTo(0, +sessionStorage.getItem('scroll'));
-        page = +sessionStorage.getItem('page');
-        sessionStorage.clear();
+        window.scrollTo(0, savedScroll);
       }, 0);
+      page = +sessionStorage.getItem('page');
+      sessionStorage.clear();
     }
   }, []);
 
@@ -48,8 +47,8 @@ const JobItemList = () => {
       setItemList(prevState => {
         return [...prevState, ...loadedItemList];
       });
-      scrollMemoHandler();
       page++;
+      scrollMemoHandler();
     },
     [scrollMemoHandler]
   );
@@ -86,12 +85,6 @@ const JobItemList = () => {
   }, [httpRequest, itemListHandler]);
 
   useEffect(() => {
-    return () => {
-      sessionStorage.setItem('page', page);
-    };
-  }, []);
-
-  useEffect(() => {
     let limit = LIMIT_PAGINATION;
     let offset = page;
     const savedScroll = +sessionStorage.getItem('scroll');
@@ -123,6 +116,7 @@ const JobItemList = () => {
         item={item}
         onChangeList={bookmarkHandler}
         isLogin={isLogin}
+        page={page}
       />
     );
   });

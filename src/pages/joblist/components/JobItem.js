@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
 
-const JobItem = ({ item, onChangeList, isLogin }) => {
+const JobItem = ({ item, onChangeList, isLogin, page }) => {
   const { id, company, jobName, url, location, years, like } = item;
   const naviagate = useNavigate();
 
@@ -11,6 +11,7 @@ const JobItem = ({ item, onChangeList, isLogin }) => {
   const goToDetail = () => {
     const scroll = document.documentElement.scrollTop;
     sessionStorage.setItem('scroll', scroll);
+    sessionStorage.setItem('page', page);
     naviagate(`/jobdetail/${id}`);
   };
 
