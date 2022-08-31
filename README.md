@@ -1,7 +1,7 @@
 # React 2차 프로젝트
 
 ## 프로젝트 결과
-  - 프로젝트 배포 링크 : https://shimmering-sunshine-a67c9f.netlify.app/joblist
+  - 프로젝트 배포 링크 : https://shimmering-sunshine-a67c9f.netlify.app/
   
   **[변경사항]**
   ```
