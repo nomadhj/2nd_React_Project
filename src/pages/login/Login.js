@@ -1,42 +1,23 @@
-import { useEffect, useState, useCallback } from 'react';
-import jwt_decode from 'jwt-decode';
-import styled from 'styled-components';
+import { useEffect, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { GoogleButton } from 'react-google-button';
+import AuthContext from '../../context/AuthContext';
 
 const Login = () => {
-  // context 또는 redux 활용하여 리팩토링 할 것;
-  const [user, setUser] = useState({});
+  const context = useContext(AuthContext);
   const navigate = useNavigate();
+  const { logIn, isLoggedIn } = context;
 
   const goToMain = useCallback(() => {
     navigate('/');
   }, [navigate]);
 
-  const handleResponse = useCallback(
-    response => {
-      const token = response.credential;
-      const userObject = jwt_decode(token);
-      localStorage.setItem('token', token);
-      setUser(userObject);
-      alert(`${userObject.name}님 환영합니다`);
-      goToMain();
-    },
-    [goToMain]
-  );
-
   useEffect(() => {
-    const google = window.google;
-    google.accounts.id.initialize({
-      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-      callback: handleResponse,
-    });
-
-    google.accounts.id.renderButton(document.getElementById('signInBtn'), {
-      theme: 'filled_blue',
-      size: 'large',
-      text: 'signin_with',
-    });
-  }, [handleResponse]);
+    if (isLoggedIn) {
+      goToMain();
+    }
+  }, [goToMain, isLoggedIn]);
 
   return (
     <LoginContainer>
@@ -49,7 +30,7 @@ const Login = () => {
           <LoginDescription>WantUS에 오신 것을 환영합니다.</LoginDescription>
           <LoginDescription>google 계정으로 시작</LoginDescription>
           <LoginButtonWrapper>
-            <SignInBtn />
+            <GoogleButton onClick={logIn} />
           </LoginButtonWrapper>
         </LoginSection>
       </LoginWrapper>
@@ -122,9 +103,5 @@ const LoginButtonWrapper = styled.div`
   flex: 6;
   padding-bottom: 50px;
 `;
-
-const SignInBtn = styled.div.attrs(() => {
-  return { id: 'signInBtn' };
-})``;
 
 export default Login;

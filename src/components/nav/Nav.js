@@ -1,41 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { IoIosSearch } from 'react-icons/io';
-import SearchModal from './components/SearchModal.js';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext.js';
+import SearchModal from './components/SearchModal.js';
+import { IoIosSearch } from 'react-icons/io';
 
 const Nav = () => {
   const [isShownSearchBar, setIsShownSearchBar] = useState(false);
   const navigate = useNavigate();
-
-  const [isLogin, setIsLogin] = useState(false);
-  const token = localStorage.getItem('token');
+  const context = useContext(AuthContext);
+  const { logOut, isLoggedIn } = context;
 
   const moveToPage = event => {
     event.preventDefault();
     const { innerText: name } = event.target;
     if (name === 'wantUS') navigate('/');
     if (name === '마이 페이지') navigate('/mypage');
-  };
-
-  const checkLogin = () => {
-    navigate('login');
-  };
-
-  const checkLogOut = () => {
-    localStorage.removeItem('token');
-    setIsLogin(false);
-    alert('로그아웃 되었습니다!');
-    navigate('/');
+    if (name === '로그인') navigate('login');
   };
 
   const searchBarHandler = () => {
     setIsShownSearchBar(prevState => !prevState);
   };
-
-  useEffect(() => {
-    token && setIsLogin(true);
-  }, [token]);
 
   return (
     <NavWrapper>
@@ -47,11 +33,14 @@ const Nav = () => {
         <NavRightContainer>
           <UserSection>
             <SearchIcon onClick={searchBarHandler} />
-            {!isLogin && <Login onClick={checkLogin}>로그인</Login>}
-            {isLogin && <Login onClick={checkLogOut}>로그아웃</Login>}
+            {isLoggedIn ? (
+              <Login onClick={logOut}>로그아웃</Login>
+            ) : (
+              <Login onClick={moveToPage}>로그인</Login>
+            )}
           </UserSection>
           <CompanyService onClick={moveToPage}>
-            {isLogin ? '마이 페이지' : '기업 서비스'}
+            {isLoggedIn ? '마이 페이지' : '기업 서비스'}
           </CompanyService>
         </NavRightContainer>
       </NavContainer>

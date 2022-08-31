@@ -1,14 +1,20 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import AuthContext from '../../context/AuthContext';
 
-// 전역 상태관리를 통해 유저정보 전달 기능 추가 할 것
 const MypageAside = () => {
+  const context = useContext(AuthContext);
+  const { user } = context;
+
   return (
     <ProfileAside>
       <AsideTop>
-        <AsideTopProfile src="" />
-        <AsideTopName>김현주</AsideTopName>
-        <AsideTopEmail>aaaa@aaaa</AsideTopEmail>
-        <AsideTopPhoneNumber>010-1234-5678</AsideTopPhoneNumber>
+        <AsideTopProfile src={user.photoURL} />
+        <AsideTopName>{user.displayName}</AsideTopName>
+        <AsideTopEmail>{user.email}</AsideTopEmail>
+        <AsideTopPhoneNumber>
+          {user.phoneNumber ? user.phoneNumber : 'no Phone number'}
+        </AsideTopPhoneNumber>
       </AsideTop>
     </ProfileAside>
   );
