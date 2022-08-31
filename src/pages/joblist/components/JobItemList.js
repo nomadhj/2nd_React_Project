@@ -5,16 +5,15 @@ import SkeletonUi from './SkeletonUI';
 import useFetch from '../../../hooks/useFetch';
 import API from '../../../config';
 
-let page = 1;
 const LIMIT_PAGINATION = 12;
 const LIMIT_ITEM_AMOUNT = 50;
 const LIMIT_SKELETON_AMOUNT = 8;
 
 const JobItemList = () => {
   const [itemList, setItemList] = useState([]);
+  const [page, setPage] = useState(1);
   const { httpRequest, isLoading, error } = useFetch();
 
-  const isLogin = !!localStorage.getItem('token');
   const fakeList = Array.from({ length: LIMIT_SKELETON_AMOUNT }, (_, i) => i);
 
   const scrollMemoHandler = useCallback(() => {
@@ -24,7 +23,7 @@ const JobItemList = () => {
       setTimeout(() => {
         window.scrollTo(0, savedScroll);
       }, 0);
-      page = +sessionStorage.getItem('page');
+      setPage(+sessionStorage.getItem('page'));
       sessionStorage.clear();
     }
   }, []);
@@ -47,7 +46,7 @@ const JobItemList = () => {
       setItemList(prevState => {
         return [...prevState, ...loadedItemList];
       });
-      page++;
+      setPage(prevPage => prevPage + 1);
       scrollMemoHandler();
     },
     [scrollMemoHandler]
@@ -82,11 +81,12 @@ const JobItemList = () => {
       },
       { threshold: 0.8 }
     );
-  }, [httpRequest, itemListHandler]);
+  }, [page, httpRequest, itemListHandler]);
+
+  let offset = page;
 
   useEffect(() => {
     let limit = LIMIT_PAGINATION;
-    let offset = page;
     const savedScroll = +sessionStorage.getItem('scroll');
     const savedPage = +sessionStorage.getItem('page');
     if (savedScroll && savedPage) {
@@ -115,7 +115,6 @@ const JobItemList = () => {
         key={item.id}
         item={item}
         onChangeList={bookmarkHandler}
-        isLogin={isLogin}
         page={page}
       />
     );

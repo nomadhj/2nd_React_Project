@@ -1,13 +1,16 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import AuthContext from '../../../context/AuthContext';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
 
-const JobItem = ({ item, onChangeList, isLogin, page }) => {
+const JobItem = ({ item, onChangeList, page }) => {
   const { id, company, jobName, url, location, years, like } = item;
   const naviagate = useNavigate();
+  const context = useContext(AuthContext);
+  const { isLoggedIn } = context;
 
-  // redux를 통한 데이터 전달 기능 추가 할 것
   const goToDetail = () => {
     const scroll = document.documentElement.scrollTop;
     sessionStorage.setItem('scroll', scroll);
@@ -23,12 +26,12 @@ const JobItem = ({ item, onChangeList, isLogin, page }) => {
   return (
     <ItemContainer onClick={goToDetail}>
       <ImgContainer>
-        {isLogin && (
+        {isLoggedIn && (
           <IconSolidHeart like={like}>
             <FaHeart />
           </IconSolidHeart>
         )}
-        {isLogin && (
+        {isLoggedIn && (
           <IconRegularHeart onClick={toggleLikeButton}>
             <FaRegHeart />
           </IconRegularHeart>
