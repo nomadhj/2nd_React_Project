@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import JobItem from './JobItem';
 import SkeletonUi from './SkeletonUI';
@@ -13,7 +12,6 @@ const LIMIT_SKELETON_AMOUNT = 8;
 
 const JobItemList = () => {
   const [itemList, setItemList] = useState([]);
-  const location = useLocation();
   const { httpRequest, isLoading, error } = useFetch();
 
   const isLogin = !!localStorage.getItem('token');
@@ -88,12 +86,10 @@ const JobItemList = () => {
   }, [httpRequest, itemListHandler]);
 
   useEffect(() => {
-    const currentScroll = document.documentElement.scrollTop;
-    if (currentScroll !== 0) sessionStorage.setItem('scroll', currentScroll);
     return () => {
       sessionStorage.setItem('page', page);
     };
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     let limit = LIMIT_PAGINATION;

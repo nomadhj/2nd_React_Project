@@ -7,7 +7,7 @@ const JobItem = ({ item, onChangeList, isLogin }) => {
   const { id, company, jobName, url, location, years, like } = item;
   const naviagate = useNavigate();
 
-  // redux를 통한 데이터 전달 기능 추가
+  // redux를 통한 데이터 전달 기능 추가 할 것
   const goToDetail = () => {
     const scroll = document.documentElement.scrollTop;
     sessionStorage.setItem('scroll', scroll);
