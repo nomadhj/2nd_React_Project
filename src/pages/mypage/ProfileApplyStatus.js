@@ -1,37 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ProfileApplyStatus = ({ applyList }) => {
-  const passCount = applyList.filter(list => list.result === '합격').length;
-  const documentpassCount = applyList.filter(
-    list => list.result === '서류통과'
-  ).length;
-  const failCount = applyList.filter(list => list.result === '불합격').length;
-
+const ProfileApplyStatus = () => {
   const APPLY_STATUS = [
-    { id: 1, content: '지원 완료', statusNumber: applyList.length },
-    { id: 2, content: '서류 통과', statusNumber: documentpassCount },
-    { id: 3, content: '최종 합격', statusNumber: passCount },
-    { id: 4, content: '불합격', statusNumber: failCount },
+    { id: 1, content: '지원 완료', statusNumber: 0 },
+    { id: 2, content: '서류 통과', statusNumber: 0 },
+    { id: 3, content: '최종 합격', statusNumber: 0 },
+    { id: 4, content: '불합격', statusNumber: 0 },
   ];
 
   return (
-    applyList && (
-      <ProfileApplySummary>
-        <ApplyTitle>지원 현황</ApplyTitle>
-        <ApplyRating>
-          {APPLY_STATUS.map(applyStatusData => {
-            const { id, statusNumber, content } = applyStatusData;
-            return (
-              <ApplyStatus key={id}>
-                <ApplyRatingNumber>{statusNumber}</ApplyRatingNumber>
-                <ApplyRatingText>{content}</ApplyRatingText>
-              </ApplyStatus>
-            );
-          })}
-        </ApplyRating>
-      </ProfileApplySummary>
-    )
+    <ProfileApplySummary>
+      <ApplyTitle>지원 현황</ApplyTitle>
+      <ApplyRating>
+        {APPLY_STATUS.map(applyStatusData => {
+          const { id, statusNumber, content } = applyStatusData;
+          return (
+            <ApplyStatus key={id}>
+              <ApplyRatingNumber>{statusNumber}</ApplyRatingNumber>
+              <ApplyRatingText>{content}</ApplyRatingText>
+            </ApplyStatus>
+          );
+        })}
+      </ApplyRating>
+    </ProfileApplySummary>
   );
 };
 

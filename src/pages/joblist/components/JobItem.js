@@ -9,6 +9,8 @@ const JobItem = ({ item, onChangeList, isLogin }) => {
 
   // redux를 통한 데이터 전달 기능 추가
   const goToDetail = () => {
+    const scroll = document.documentElement.scrollTop;
+    sessionStorage.setItem('scroll', scroll);
     naviagate(`/jobdetail/${id}`);
   };
 
