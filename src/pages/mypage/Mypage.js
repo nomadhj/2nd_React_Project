@@ -1,20 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MypageAside from './MypageAside';
 import ProfileApplyStatus from './ProfileApplyStatus';
-import ProfileApplyCompany from './ProfileApplyCompany';
+
 const Mypage = () => {
-  const [applyList, setApplyList] = useState([]);
-  useEffect(() => {
-    fetch('http://52.15.84.15:8000/applications/results', {
-      method: 'GET',
-      headers: {
-        Authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => setApplyList(data.application_results));
-  }, []);
   return (
     <MypageWrapper>
       <MypageContainer>
@@ -22,8 +10,7 @@ const Mypage = () => {
         <ProfileContainer>
           <MypageAside />
           <ProfileApplyContainer>
-            <ProfileApplyStatus applyList={applyList} />
-            <ProfileApplyCompany applyList={applyList} />
+            <ProfileApplyStatus />
           </ProfileApplyContainer>
         </ProfileContainer>
       </MypageContainer>
@@ -50,6 +37,7 @@ const ProfileContainer = styled.div`
   display: flex;
 `;
 const ProfileApplyContainer = styled.div`
+  width: 650px;
   margin-left: 20px;
 `;
 export default Mypage;

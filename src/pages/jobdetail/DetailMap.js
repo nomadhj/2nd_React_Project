@@ -1,14 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-// import NaverMaps from './NaverMaps';
 
 const DetailMap = ({ detailList }) => {
   return (
     <MapArea>
-      <MapDescription>
-        <Title>마감일</Title>
-        <span>{detailList.job_detail?.job_deadline}</span>
-      </MapDescription>
       <MapDescription>
         <Title>근무지역</Title>
         <span>{detailList.job_detail?.company_address}</span>

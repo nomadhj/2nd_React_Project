@@ -12,13 +12,10 @@ const Nav = () => {
   const token = localStorage.getItem('token');
 
   const moveToPage = event => {
+    event.preventDefault();
     const { innerText: name } = event.target;
     if (name === 'wantUS') navigate('/');
     if (name === '마이 페이지') navigate('/mypage');
-    if (name === '이력서') {
-      if (!isLogin) return;
-      navigate('/resume');
-    }
   };
 
   const checkLogin = () => {
@@ -46,9 +43,7 @@ const Nav = () => {
         <Mainbar>
           <Title onClick={moveToPage}>wantUS</Title>
         </Mainbar>
-        <MenuListContainer>
-          <MenuList onClick={moveToPage}>이력서</MenuList>
-        </MenuListContainer>
+        <MenuListContainer />
         <NavRightContainer>
           <UserSection>
             <SearchIcon onClick={searchBarHandler} />
@@ -107,16 +102,6 @@ const MenuListContainer = styled.ul`
   font-size: 14px;
   font-weight: bold;
   color: ${props => props.theme.fontGray};
-`;
-
-const MenuList = styled.li`
-  padding: 15px;
-  cursor: pointer;
-
-  &:hover {
-    transform: scale(1.2, 1.2);
-    color: black;
-  }
 `;
 
 const NavRightContainer = styled.div`

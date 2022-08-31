@@ -1,61 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { RiErrorWarningLine } from '@react-icons/all-files/ri/RiErrorWarningLine';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import JobDetailDescription from './JobDetailDescription';
 import DetailMap from './DetailMap';
-import Apply from './Apply';
-import ApplyInformation from './ApplyInformation';
-import SubmitModal from './SubmitModal';
-import CompanySlide from './CompanySlide';
 
 const JobDetail = () => {
-  const [apply, setApply] = useState(true);
   const [detailList, setDetailList] = useState({});
-  const [userFile, setUserFile] = useState([]);
-  const [submitModal, setSubmitModal] = useState(false);
-  const { job_id } = useParams();
-
-  useEffect(() => {
-    fetch(`http://52.15.84.15:8000/jobs/${job_id}`, {
-      method: 'GET',
-      headers: {
-        Authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        setDetailList(res);
-      });
-  }, []);
-
-  const likeBtn = e => {
-    fetch(`http://52.15.84.15:8000/jobs/${job_id}/follow`, {
-      method: 'POST',
-      headers: {
-        Authorization: localStorage.getItem('token'),
-      },
-      body: detailList,
-    }).then(res => res.json());
-
-    fetch(`http://52.15.84.15:8000/jobs/${job_id}`, {
-      method: 'GET',
-      headers: {
-        Authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        setDetailList(res);
-      });
-  };
 
   return (
     <div>
-      {submitModal ? <SubmitModal setSubmitModal={setSubmitModal} /> : null}
       <Wrapper>
         <LeftWrapper>
-          <CompanySlide detailList={detailList} />
+          <CompanyImg />
           <LeftTitle>{detailList.job_detail?.job_name}</LeftTitle>
           <CompanyDescription>
             <CompanyTitle>{detailList.job_detail?.company_name}</CompanyTitle>
@@ -68,13 +22,6 @@ const JobDetail = () => {
             <span>#재택근무</span>
             <span>#IT,컨텐츠</span>
           </HashTagArea>
-          <JobDetailDescription detailList={detailList} />
-          <SkillStackArea>
-            <span>Git</span>
-            <span>Github</span>
-            <span>Javascript</span>
-            <span>Python</span>
-          </SkillStackArea>
           <UnderBar />
           <DetailMap detailList={detailList} />
           <FollowBox>
@@ -87,35 +34,9 @@ const JobDetail = () => {
                 <div className="CompanyField">IT,컨텐츠</div>
               </FollowCompanyTitle>
             </FollowCompany>
-            <FollowBtn onClick={e => likeBtn(e)}>좋아요</FollowBtn>
+            <FollowBtn>좋아요</FollowBtn>
           </FollowBox>
-          <WarnBox>
-            <RiErrorWarningLine className="warnIcon" />
-            <WarnSentence>
-              본 채용정보는 원티드랩의 동의없이 무단전재, 재배포, 재가공할 수
-              없으며, 구직활동 이외의 용도로 사용할 수 없습니다.
-            </WarnSentence>
-          </WarnBox>
         </LeftWrapper>
-        <RightWrapper>
-          {apply ? (
-            <Apply
-              setApply={setApply}
-              detailList={detailList}
-              setDetailList={setDetailList}
-              likeBtn={likeBtn}
-            />
-          ) : (
-            <ApplyInformation
-              setApply={setApply}
-              userFile={userFile}
-              setUserFile={setUserFile}
-              setSubmitModal={setSubmitModal}
-              detailList={detailList}
-              likeBtn={likeBtn}
-            />
-          )}
-        </RightWrapper>
       </Wrapper>
     </div>
   );
@@ -136,6 +57,15 @@ const LeftWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
+`;
+
+const CompanyImg = styled.img.attrs(() => {
+  return {
+    src: 'https://i.pinimg.com/564x/27/e0/74/27e074008b1d54fb474224de9102651b.jpg',
+  };
+})`
+  width: 100%;
+  height: 450px;
 `;
 
 const LeftTitle = styled.div`
@@ -180,18 +110,6 @@ const HashTagArea = styled.div`
   }
 `;
 
-const SkillStackArea = styled.div`
-  display: flex;
-  margin-top: 10px;
-
-  span {
-    padding: 8px 10px;
-    margin: 10px 5px 0 0;
-    border-radius: 15px;
-    background: #e4f4ec;
-  }
-`;
-
 const UnderBar = styled.div`
   margin-top: 60px;
   border: 1px solid #eee;
@@ -232,24 +150,4 @@ const FollowBtn = styled.button`
   background: white;
   color: #36f;
   cursor: pointer;
-`;
-
-const WarnBox = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 20px 20px;
-  margin-top: 10px;
-  font-size: 30px;
-  background: #f3f5f8;
-`;
-
-const WarnSentence = styled.div`
-  margin: 4px;
-  font-size: 12px;
-`;
-
-const RightWrapper = styled.div`
-  position: fixed;
-  width: 25rem;
-  right: 10%;
 `;
