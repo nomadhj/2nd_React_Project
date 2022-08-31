@@ -13,7 +13,7 @@ const JobDetail = () => {
           <LeftTitle>{detailList.job_detail?.job_name}</LeftTitle>
           <CompanyDescription>
             <CompanyTitle>{detailList.job_detail?.company_name}</CompanyTitle>
-            <CompanyResponse>응답룰 매우 높음</CompanyResponse>
+            <CompanyResponse>응답률 매우 높음</CompanyResponse>
             <span>|</span>
             <p>{detailList.job_detail?.company_location}</p>
           </CompanyDescription>
