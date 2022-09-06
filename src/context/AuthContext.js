@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
     return () => {
       stateChange();
     };
-  });
+  }, []);
 
   const authContext = {
     user,
